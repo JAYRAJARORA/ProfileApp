@@ -1,5 +1,5 @@
 {% extends 'UserBundle::header.html.twig' %}
-{% form_theme form 'UserBundle:Register:fields.html.twig' %}
+{% form_theme form 'UserBundle:Register:fields.html.twig'%}
 
 {% block body %}
     {{ parent()}}
@@ -7,28 +7,37 @@
         <div class="row">
             <div class=" col-md-offset-4 col-md-4">
                 <h2>Sign Up</h2>
-                <form action="{{ path('user_register') }}" method="POST" novalidate="novalidate" >
-                        {#{{ form_errors(form) }}#}
-                        {{ form_row(form.username) }}
-                        {{ form_row(form.email) }}
-                        {{ form_row(form.plainPassword.first,
-                            {
-                                'label' : 'Password'
+                <form action="{{ path('user_register') }}" method="POST" novalidate="novalidate">
+                        {{ form_row(
+                            form.username,{
+                                'id' : 'username'
+                            })
+                        }}
+                        {{ form_row(form.email,{
+                            'id'  : 'email'
+                            })
+                        }}
+                        {{ form_row(form.plainPassword.first,{
+                                'label' : 'Password',
+                                'id'  : 'password'
                             })
                         }}
                         {{ form_row(
-                            form.plainPassword.second,
-                            {
-                                'label': 'Repeat Password'
+                            form.plainPassword.second,{
+                                'label': 'Repeat Password',
+                                'id'  : 'password_check'
                             })
                         }}
                         {{ form_rest(form) }}
-
-                        <input type="submit" value="Register!!" class="btn btn-primary float-right">
+                        <input type="submit" value="Register!!" class="btn btn-primary float-right" id="submit">&nbsp;
                         <a href="{{ path('login_form') }}">Already Registered</a>
                 </form>
-
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script src="{{ asset('bundles/user/js/register.js') }}"></script>
 {% endblock %}

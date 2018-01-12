@@ -16,34 +16,37 @@
                     {%- if error -%}
                         <div class="alert alert-danger fade in">
                             {{ error.messageKey| trans(
-                            {'Invalid credentials.':'Wrong email or password
+                            {'Invalid credentials.':'Wrong username or password
                             entered'}) }}
                         </div>
                     {%- endif -%}
-                    <form action="{{ path('login_check') }}" method="post">
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <input type="text" id="username"
-                                   name="_username" value="{{ last_username }}"
-                                   class="form-control"
-                                   required
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="_password"
-                            class="form-control" required
-                            />
-                        </div>
-                        <div class="form-group form-inline">
-                            <button type="submit"
-                                    class="btn btn-default btn-primary "
-                                    name="login_button"
-                                    id="submit">Submit</button>&nbsp;
-                            &nbsp;   <a href="{{ path('user_register') }}">Create Account</a>&nbsp;
-                        </div>
-                    </form>
+                <form name="login" method="post" action="{{ path('login_check') }}">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username"
+                               placeholder="Enter username" name="_username">
+                        <span class=" hide_username_details help-block" id="username_check">
+                    </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control"
+                               id="password" placeholder="Enter password" name="_password">
+                        <span class="hide_password_details help-block" id="password_error"></span>
+                    </div>
+                    <div class="form-group form-inline">
+                        <button type="submit" class="btn btn-default btn-primary"
+                                name="login_button" id="submit">Submit</button>&nbsp;&nbsp;
+                        <a href="{{ path('user_register')}}">Create Account </a>&nbsp;
+                        <a href="#" data-toggle="modal" data-target="#pwdModal">Forgot Password</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts%}
+    {{ parent() }}
+    <script src="{{ asset('bundles/user/js/login.js') }}"></script>
 {% endblock %}
