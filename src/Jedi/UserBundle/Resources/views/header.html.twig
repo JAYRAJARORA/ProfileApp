@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path('home_page') }}">Dashboard
+                </a>
+            </div>
+            <!-- displaying the detailed navigation bar only if user has logged in -->
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <ul class="nav navbar-nav">
+                    <li id="home"><a href="{{ path('home_page') }}">Home</a></li>
+                </ul>
+                <!-- logout button at the right for logging out the user -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ path('logout') }}"><span class="glyphicon
+                    glyphicon-log-out">Logout</span></a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}

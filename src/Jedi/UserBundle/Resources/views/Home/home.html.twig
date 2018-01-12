@@ -1,0 +1,13 @@
+{% extends 'UserBundle::header.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-offset-4 col-md-4">
+                <h1>Welcome {{ user.username }}</h1>
+                <p>Email: <span class="text-info">{{ user.email }}</span></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
