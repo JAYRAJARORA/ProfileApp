@@ -22,9 +22,11 @@ class LoadUsers implements FixtureInterface,ContainerAwareInterface,OrderedFixtu
      */
     public function load(ObjectManager $manager)
     {
+        $encode_object = $this->container->get('encode_password');
         $user = new User();
         $user->setUsername('darth');
-        $user->setPassword($this->encodePassword($user, 'dathpass'));
+
+        $user->setPassword($encode_object->encodePassword($user, 'dathpass'));
         $user->setEmail('darth@deathstar.com');
         $manager->persist($user);
 
@@ -32,7 +34,7 @@ class LoadUsers implements FixtureInterface,ContainerAwareInterface,OrderedFixtu
         $admin = new User();
         $admin->setUsername('wayne');
         $admin->setEmail('wayne@deahstar.com');
-        $admin->setPassword($this->encodePassword($admin, 'waynepass'));
+        $admin->setPassword($encode_object->encodePassword($admin, 'waynepass'));
         $admin->setRoles(array('ROLE_ADMIN'));
         $manager->persist($admin);
 

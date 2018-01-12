@@ -33,7 +33,8 @@ class RegisterController extends Controller
         /** if submitted as post and is valid */
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $user->setPassword($this->encodePassword($user,$user->getPlainPassword()));
+            $encode_object = $this->container->get('encode_password');
+            $user->setPassword($encode_object->encodePassword($user,$user->getPlainPassword()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -46,16 +47,5 @@ class RegisterController extends Controller
         return array('form'=>$form->createView());
     }
 
-    /**
-     * Encodes the password using bcrypt
-     *
-     * @param User $user
-     * @param $plainpassword
-     * @return string
-     */
-    private function encodePassword(User $user, $plainpassword)
-    {
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        return $encoder->encodePassword($plainpassword, $user->getSalt());
-    }
+
 }

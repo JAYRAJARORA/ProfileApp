@@ -1,0 +1,4 @@
+services:
+    encode_password:
+      class: Jedi\UserBundle\Utils\EncodePassword
+      arguments: [@security.encoder_factory]
