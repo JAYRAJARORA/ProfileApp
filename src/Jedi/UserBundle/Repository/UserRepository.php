@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Jedi\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Doctrine\ORM\EntityRepository;
+
 /**
  * UserRepository
  *
@@ -17,6 +18,8 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository implements UserProviderInterface
 {
     /**
+     * Allow login to be done via username or email
+     *
      * @param $username
      * @return User|null
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -31,6 +34,8 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     }
 
     /**
+     * symfony security is sent here to check the username or email
+     *
      * @param string $username
      * @return User|null|UserInterface
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -40,6 +45,12 @@ class UserRepository extends EntityRepository implements UserProviderInterface
         $user = $this->findOneByEmailOrUsername($username);
         return $user;
     }
+
+    /**
+     *
+     * @param UserInterface $user
+     * @return null|object
+     */
     public function refreshUser(UserInterface $user)
     {
         $class = get_class($user);
@@ -62,10 +73,4 @@ class UserRepository extends EntityRepository implements UserProviderInterface
         return $this->getEntityName() === $class
             || is_subclass_of($class, $this->getEntityName());
     }
-
-//    public function findAll()
-//    {
-//        echo 'trapped';
-//        die();
-//    }
 }
