@@ -1,0 +1,39 @@
+{% extends 'UserBundle::header.html.twig' %}
+{% form_theme form 'UserBundle:Register:fields.html.twig'%}
+{% block body %}
+    {{ parent() }}
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-offset-4 col-md-4">
+                <h2>Reset Password</h2>
+                <form name="reset_password" method="post" action="{{ path('reset_password',{'forgot_pass_id':forgot_pass_id})}}"
+                      novalidate="novalidate">
+                    {{ form_row(form.plainPassword.first,{
+                        'label' : 'Password',
+                        'id'  : 'password'
+                    })
+                    }}
+                    {{ form_row(
+                    form.plainPassword.second,{
+                        'label': 'Repeat Password',
+                        'id'  : 'password_check'
+                    })
+                    }}
+                    <div class="form-group form-inline">
+                        <button type="submit"
+                                class="btn btn-default"
+                                name="reset_button"
+                                id="submit">Submit
+                        </button>
+                    </div>
+                    {{ form_row(form._token) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/user/js/reset.js') }}"></script>
+{% endblock %}

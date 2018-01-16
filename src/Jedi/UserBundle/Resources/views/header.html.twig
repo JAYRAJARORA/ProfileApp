@@ -10,6 +10,7 @@
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <ul class="nav navbar-nav">
                     <li id="home"><a href="{{ path('home_page') }}">Home</a></li>
+                    <li id="update"><a href="{{ path('update') }}">Edit Profile</a></li>
                 </ul>
                 <!-- logout button at the right for logging out the user -->
                 <ul class="nav navbar-nav navbar-right">

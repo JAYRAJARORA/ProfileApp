@@ -33,6 +33,10 @@ class UserRepository extends EntityRepository implements UserProviderInterface
             ->getOneOrNullResult();
     }
 
+
+
+
+
     /**
      * symfony security is sent here to check the username or email
      *

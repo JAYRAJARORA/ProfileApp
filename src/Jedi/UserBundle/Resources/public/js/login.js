@@ -51,4 +51,119 @@ $(document).ready(function () {
         var password = $('#password').val();
         passwordValidate(password);
     });
+
+
+
+
+
+
+
+
+    /* success and error message for forgot password modal form */
+    $('#successMessage').hide();
+    $('#display_errors').hide();
+    /** upon submit check for email else do the ajax request
+     * ajax request sends the email entered and in response
+     * gives the error or success message as jso
+     */
+    $('#forgot_pass_submit').click(function (event) {
+        event.preventDefault();
+        var modal_email = $('#modal_email').val();
+
+        if ('' === modal_email) {
+            $('#display_errors').parent().addClass('has-error');
+            $('#display_errors').html('Email is required').show();
+        } else {
+            $('#forgot_pass_submit').html('<i class="fa fa-spinner fa-spin fa-1.5x fa-fw"></i>')
+                .attr('disabled','disabled');
+            $.ajax({
+                type: 'POST',
+                url: '/app_dev.php/send_email',
+                dataType: 'json',
+                data: {
+                    email: modal_email
+                },
+                success: function (response) {
+                    console.log(response);
+                    var jsonresponse = response;
+                    if (jsonresponse.hasOwnProperty('error')) {
+                        $('#display_errors').parent().addClass('has-error');
+                        $('#display_errors').addClass('error_response')
+                            .html(jsonresponse.error).show();
+                    } else if (jsonresponse.hasOwnProperty('success')) {
+                        $('#successMessage').parent().addClass('has-success');
+                        $('#successMessage').addClass('success_response')
+                            .html(jsonresponse.success).show();
+                    }
+                    if ($('span').hasClass('error_response')) {
+                        if ($('.error_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('error_response');
+                        }
+                    }
+                    if ($('span').hasClass('success_response')) {
+                        if ($('.success_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('success_response');
+                        }
+                    }
+
+                },
+                error: function (response) {
+                    if ($('span').hasClass('error_response')) {
+                        if ($('.error_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('error_response');
+                        }
+                    }
+                }
+            });
+        }
+
+        $('#modal_email').focus(function () {
+            if ($('#display_errors').parent().hasClass('has-error')) {
+                $('#display_errors').hide();
+                $('#display_errors').parent().removeClass('has-error');
+            } else if ($('#successMessage').parent().hasClass('has-success')) {
+                $('#successMessage').hide();
+                $('#successMessage').parent().removeClass('has-success');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
+
+
+
+
+
+
+
+
