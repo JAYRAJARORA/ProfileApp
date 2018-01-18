@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -76,28 +77,30 @@ class HomeController extends Controller
 
             return $this->redirect($this->generateUrl('login_form'));
         }
+
         $data = null;
         /** update form */
         $form = $this->createForm(UpdateFormType::class, $data, array('user' => $this->getUser()));
 
         /** handles validation for the user object coming */
         $form->handleRequest($request);
+
         /** if submitted as post and is valid */
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $user->setEmail($data['email']);
             $user->setFirstname($data['firstname']);
             $user->setLastname($data['lastname']);
             $user->setAddress($data['address']);
             $user->setGender($data['gender']);
-            if (strcmp($data['email'],$this->getUser()->getEmail())) {
-                $user->setEmail($data['email']);
-            }
+
             if ('' !== $user->getPlainPassword()) {
                 $encode_object = $this->container->get('encode_password');
                 $user->setPassword($encode_object->encodePassword($user, $user->getPlainPassword()));
             }
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
             /** flashbag to show user only once */
@@ -107,5 +110,23 @@ class HomeController extends Controller
             return $this->redirect($url);
         }
         return array('form'=>$form->createView());
+    }
+
+
+    /**
+     * @Route("/check_email",name="checkEmail")
+     */
+    public function checkEmailAction()
+    {
+        $email = ($this->get('request')->request->get('email'));
+        $em = $this->getDoctrine()->getManager();
+        $response = array();
+        $isExist = $em->getRepository('UserBundle:User')->findOneByEmailOrUsername($email);
+        $isEqual = strcmp($email,$this->getUser()->getEmail());
+        if (0 !== $isEqual && $isExist) {
+            $response = array('error' => 'Email id already exists');
+        }
+        $response = new JsonResponse($response);
+        return $response;
     }
 }

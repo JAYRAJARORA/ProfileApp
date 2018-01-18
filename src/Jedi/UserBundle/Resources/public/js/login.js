@@ -54,11 +54,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-
-
     /* success and error message for forgot password modal form */
     $('#successMessage').hide();
     $('#display_errors').hide();

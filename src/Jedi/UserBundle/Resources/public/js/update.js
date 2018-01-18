@@ -4,9 +4,9 @@ $(document).ready(function () {
     $('#update').addClass('active');
 
     $('#email').parent().append('<span class="hide_email_details help-block" id="email_check">');
-    $('#username').parent().append(' <span class="hide_username_details help-block"id="username_check"></span>');
-    $('#firstname').parent().append(' <span class="hide_firstname_details help-block"id="firstname_check"></span>');
-    $('#lastname').parent().append(' <span class="hide_lastname_details help-block"id="lastname_check"></span>');
+    $('#username').parent().append('<span class="hide_username_details help-block"id="username_check"></span>');
+    $('#firstname').parent().append('<span class="hide_firstname_details help-block"id="firstname_check"></span>');
+    $('#lastname').parent().append('<span class="hide_lastname_details help-block"id="lastname_check"></span>');
     $('#password').parent().append('<span class=" hide_password_details help-block" id="password_error">');
     $('#password_check').parent().append('<span class=" hide_password_check_details help-block" id="password_check_error">');
 
@@ -103,7 +103,28 @@ $(document).ready(function () {
     });
     $('#email').blur(function () {
         var email = $('#email').val();
-        emailValidate(email, email_regex);
+        if (true === emailValidate(email, email_regex)) {
+            $.ajax({
+                type : 'POST',
+                url :  '/app_dev.php/check_email',
+                dataType: 'json',
+                data : {
+                    email : email
+                },
+                success : function (response) {
+                    var jsonresponse = response;
+                    if (jsonresponse !==null) {
+                        if (jsonresponse.hasOwnProperty('error')) {
+                            $('#email').parent().addClass('has-error');
+                            $('#email_check').html(jsonresponse.error).show();
+                        } else if (jsonresponse.hasOwnProperty('success')) {
+                        }
+                    }
+                },
+                error : function (response) {
+                }
+            });
+        }
     });
 
     /* client side validation for password */
@@ -163,6 +184,9 @@ $(document).ready(function () {
         }
 
         if (false === passwordCheckValidate(password, password_check)) {
+            is_error = false;
+        }
+        if (true === $('#email_check').is(':visible')) {
             is_error = false;
         }
         if (false === is_error) {
