@@ -1,0 +1,1 @@
+$('#getTweets').addClass('active');

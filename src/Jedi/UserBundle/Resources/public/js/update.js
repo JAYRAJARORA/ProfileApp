@@ -1,6 +1,8 @@
 /* form validation using jquery */
 $(document).ready(function () {
 
+    $('#update').addClass('active');
+
     $('#email').parent().append('<span class="hide_email_details help-block" id="email_check">');
     $('#username').parent().append(' <span class="hide_username_details help-block"id="username_check"></span>');
     $('#firstname').parent().append(' <span class="hide_firstname_details help-block"id="firstname_check"></span>');

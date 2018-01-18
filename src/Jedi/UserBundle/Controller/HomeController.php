@@ -1,9 +1,27 @@
 <?php
 
+/**
+ * Home Controller containing the update and home page routes
+ *
+ * PHP version 7.0
+ *
+ * LICENSE: This program is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  HomePage
+ * @package   UserBundle
+ * @author    Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @copyright 1997-2005 The PHP Group
+ * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version   SVN: $Id$
+ * @link      http://pear.php.net/package/PackageName
+ */
+
 namespace Jedi\UserBundle\Controller;
 
-use Jedi\UserBundle\Entity\User;
-use Jedi\UserBundle\Form\RegisterFormType;
+
 use Jedi\UserBundle\Form\UpdateFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -11,18 +29,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class Home Controller Doc Comment
+ *
+ * @category HomeController
+ * @package  UserBundle
+ * @author   Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @license  http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @link     http://pear.php.net/package/PackageName
+ */
 class HomeController extends Controller
 {
     /**
-     *Home page to shown to authenticated users
+     * Home page to shown to authenticated users
+     *
+     * @param Request $request to handle request data
+     *
+     * @return string
      *
      * @Template()
      * @Route("/",name="home_page")
      */
     public function homeAction(Request $request)
     {
-        /** not allow entry for unauthenticated users */
-        if (!$this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')
+        ) {
             return $this->redirect($this->generateUrl('login_form'));
         }
 
@@ -40,7 +71,6 @@ class HomeController extends Controller
      */
     public function updateAction(Request $request)
     {
-
         /** redirect already registered users */
         if (!$this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 

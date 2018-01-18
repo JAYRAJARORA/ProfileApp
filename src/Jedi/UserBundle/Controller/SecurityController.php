@@ -82,12 +82,6 @@ class SecurityController extends Controller
             );
             $date = new DateTime($current_time);
             $result->setTokenTime($date);
-
-            echo $result;
-
-
-
-
             $em->flush();
             $message = (new \Swift_Message('Hello Email'))
                 ->setFrom('jayraj.arora@gmail.com')

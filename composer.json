@@ -12,6 +12,7 @@
     },
     "require": {
         "php": ">=5.3.9",
+        "abraham/twitteroauth": "^0.7.4",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/doctrine-fixtures-bundle": "2.3.0",
         "doctrine/doctrine-migrations-bundle": "1.3.1",

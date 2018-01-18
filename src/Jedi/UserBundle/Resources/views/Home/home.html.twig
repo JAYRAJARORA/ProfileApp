@@ -14,8 +14,24 @@
                 {% endif %}
                 <h1>Welcome {{ user.username }}</h1>
                 <p>Email: <span class="text-info">{{ user.email }}</span></p>
-
+                {% if user.firstname %}
+                    <p>Firstname: <span class="text-info">{{ user.firstname }}</span></p>
+                {% endif %}
+                {% if user.lastname %}
+                    <p>LastName: <span class="text-info">{{ user.lastname }}</span></p>
+                {% endif %}
+                {%  if user.address %}
+                    <p>Address: <span class="text-info">{{ user.address }}</span></p>
+                {% endif %}
+                {% if user.gender %}
+                    <p>Gender: <span class="text-info">{{ user.gender }}</span></p>
+                {% endif %}
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/user/js/home.js') }}"></script>
 {% endblock %}
