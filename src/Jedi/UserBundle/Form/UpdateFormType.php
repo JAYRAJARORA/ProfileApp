@@ -12,17 +12,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Jedi\UserBundle\Entity\User;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RegisterFormType extends AbstractType
+class UpdateFormType extends AbstractType
 {
     /**
-     * Register form to register users
+     * Update form to register users
      *
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $options['user'];
         $builder->add(
             'username',TextType::class,
             array(
@@ -53,6 +55,7 @@ class RegisterFormType extends AbstractType
                 )
             )
         )->add('gender', ChoiceType::class, array(
+
                 'choices'  => array(
                     'Female' => 'female',
                     'Male' => 'male',
@@ -60,7 +63,7 @@ class RegisterFormType extends AbstractType
                 'choices_as_values' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'data' => 'male',
+                'data' => $user->getGender()
             )
         )->add(
             'address', TextareaType::class,
@@ -92,7 +95,6 @@ class RegisterFormType extends AbstractType
                 )
         );
     }
-
     /**
      * Set the form to be set as a user object to be
      * further validate by the user entity class
@@ -102,7 +104,7 @@ class RegisterFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => User::class
+            'user' => null
         ));
     }
 }

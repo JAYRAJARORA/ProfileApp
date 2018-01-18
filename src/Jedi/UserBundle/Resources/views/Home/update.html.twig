@@ -1,5 +1,67 @@
 {% extends 'UserBundle::header.html.twig' %}
+{% form_theme form 'UserBundle:Register:fields.html.twig' %}
 
 {% block body %}
-    Welcome
+    {{ parent() }}
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-offset-4 col-md-4">
+                <h2>Update Profile</h2>
+                <form action="{{ path('update') }}" method="POST" novalidate="novalidate">
+                    {{ form_row(
+                    form.username,{
+                        'id' : 'username',
+                        'disabled': true,
+                        'value' : app.user.username
+                    }) }}
+                    {{ form_row(
+                    form.firstname,{
+                        'id' : 'firstname',
+                        'value' : app.user.firstname
+                    }) }}
+                    {{ form_row(
+                    form.lastname,{
+                        'id' : 'lastname',
+                        'value' : app.user.lastname
+                    }) }}
+                    {{ form_row(form.email,{
+                        'id'  : 'email',
+                        'value' : app.user.email
+                    }) }}
+                    {{ form_row(
+                    form.gender,{
+                        'label' : 'Gender',
+                        'id' : 'gender',
+                    }
+                    ) }}
+                    {{ form_row(
+                    form.address,{
+                        'label' : 'Address',
+                        'id' : 'address',
+                        'value' : app.user.address
+                    }
+                    ) }}
+
+
+                    {{ form_row(form.plainPassword.first,{
+                        'label' : 'Password',
+                        'id'  : 'password',
+                    }) }}
+                    {{ form_row(
+                    form.plainPassword.second,{
+                        'label': 'Repeat Password',
+                        'id'  : 'password_check',
+                    }) }}
+
+                    {{ form_rest(form) }}
+                    <input type="submit" value="Submit!!" class="btn btn-primary float-right" id="submit">&nbsp;
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/user/js/update.js') }}"></script>
 {% endblock %}

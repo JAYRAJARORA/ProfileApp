@@ -105,41 +105,24 @@ $(document).ready(function () {
     });
 
     /* client side validation for password */
-    var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
     $('.hide_password_details').hide();
     $('.hide_password_check_details').hide();
-
-    function passwordValidate(password) {
-        if ('' === password) {
-            $('#password').parent().addClass('has-error');
-            $('#password_error').html('Please enter your password').show();
-            return false;
-        }
-    }
-
-    /* validation upon blur and focus */
-    $('#password').focus(function () {
-        $('#password_error').hide();
-        $('#password').parent().removeClass('has-error');
-    });
-    $('#password').blur(function () {
-        var password = $('#password').val();
-        passwordValidate(password);
-    });
 
     /* client side validation for password again */
     var password_check = $('#password_check').val();
 
     function passwordCheckValidate(password, password_check) {
-        if ('' === password_check) {
-            $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html('Please enter your password again').show();
-            return false;
+        if ('' !== password) {
+            if ('' === password_check) {
+                $('#password_check').parent().addClass('has-error');
+                $('#password_check_error').html('Please enter your password again').show();
+                return false;
 
-        } else if (password != password_check) {
-            $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html('The two passwords do not match').show();
-            return false;
+            } else if (password != password_check) {
+                $('#password_check').parent().addClass('has-error');
+                $('#password_check_error').html('The two passwords do not match').show();
+                return false;
+            }
         }
     }
 
@@ -176,9 +159,7 @@ $(document).ready(function () {
         if (false === emailValidate(email, email_regex)) {
             is_error = false;
         }
-        if (false === passwordValidate(password, password_regex)) {
-            is_error = false;
-        }
+
         if (false === passwordCheckValidate(password, password_check)) {
             is_error = false;
         }

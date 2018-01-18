@@ -27,6 +27,12 @@ class User implements AdvancedUserInterface,\Serializable
      */
     private $id;
 
+
+    public function __construct()
+    {
+    }
+
+
     /**
      *@var int
      *
@@ -44,10 +50,9 @@ class User implements AdvancedUserInterface,\Serializable
     /**
      * @var string
      *
-     * @Assert\NotBlank(message="Username should not be empty")
      * @Assert\Length(min=3, minMessage="Username should be Atleast 3 characters")
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
@@ -76,7 +81,6 @@ class User implements AdvancedUserInterface,\Serializable
     /**
      * Just stores the data temporaily
      *
-     * @Assert\NotBlank(message="Password should not be empty")
      * @var string
      */
     private $plainPassword;
@@ -108,16 +112,15 @@ class User implements AdvancedUserInterface,\Serializable
     /**
      * @var bool
      *
-     * @ORM\Column(name="gender", type="boolean",options={"default": 1,"comment": "1 for female and 0 for male"})
+     * @ORM\Column(name="gender", type="string",length=20,options={"default": "male"})
      */
-    private $gender;
+    private $gender = "male";
 
     /**
      * @var
      *
-     * @Assert\NotBlank(message="Email should not be empty")
      * @Assert\Email()
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255,unique=true)
      */
     private $email;
 

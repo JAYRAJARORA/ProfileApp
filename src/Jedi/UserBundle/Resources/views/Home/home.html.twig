@@ -5,6 +5,13 @@
     <div class="container">
         <div class="row">
             <div class=" col-md-offset-4 col-md-4">
+                {% if app.session.flashbag.has('success') %}
+                    <div class="alert alert-success">
+                        {% for msg in app.session.flashbag.get('success') %}
+                            {{ msg }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <h1>Welcome {{ user.username }}</h1>
                 <p>Email: <span class="text-info">{{ user.email }}</span></p>
 
