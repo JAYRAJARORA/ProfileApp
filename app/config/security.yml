@@ -11,15 +11,22 @@ security:
             entity: { class: UserBundle:User }
 
     firewalls:
+
         secured_area:
             pattern:    ^/
             form_login:
                 check_path: login_check
                 login_path: login_form
                 default_target_path: home_page
+                remember_me: true
+
             logout:
                 path:       logout
                 target:     login_form
             anonymous: ~
+            remember_me:
+                                        secret:   '%secret%'
+                                        lifetime: 604800 # 1 week in seconds
+                                        path:     /
 
     access_control:

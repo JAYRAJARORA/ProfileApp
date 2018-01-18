@@ -24,7 +24,7 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
         /** Redirect to home page for already authenticated users */
-        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
                 return $this->redirect($this->generateUrl('home_page'));
         }
 
@@ -152,7 +152,6 @@ class SecurityController extends Controller
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $password = $form->getData();
-                    print_r($password);
                     $encode_object = $this->container->get('encode_password');
                     $user->setPassword($encode_object->encodePassword($user, $user->getPlainPassword()));
                     $em->persist($user);

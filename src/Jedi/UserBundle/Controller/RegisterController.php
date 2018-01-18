@@ -21,7 +21,7 @@ class RegisterController extends Controller
     public function registerAction(Request $request)
     {
         /** redirect already registered users */
-        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirect($this->generateUrl('home_page'));
         }
         /** register form */
