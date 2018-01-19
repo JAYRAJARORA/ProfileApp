@@ -67,6 +67,7 @@ class HomeController extends Controller
 
     /**
      * Update profile of users
+     *
      * @Template()
      * @Route("/update",name="update")
      */
@@ -90,14 +91,13 @@ class HomeController extends Controller
             $data = $form->getData();
             $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
-            $user->setEmail($data['email']);
             $user->setFirstname($data['firstname']);
             $user->setLastname($data['lastname']);
             $user->setAddress($data['address']);
             $user->setGender($data['gender']);
 
             if ('' !== $user->getPlainPassword()) {
-                $encode_object = $this->container->get('encode_password');
+                $encode_object = $this->container->get('password.encode');
                 $user->setPassword($encode_object->encodePassword($user, $user->getPlainPassword()));
             }
 
@@ -119,12 +119,13 @@ class HomeController extends Controller
     public function checkEmailAction()
     {
         $email = ($this->get('request')->request->get('email'));
-        $em = $this->getDoctrine()->getManager();
         $response = array();
-        $isExist = $em->getRepository('UserBundle:User')->findOneByEmailOrUsername($email);
-        $isEqual = strcmp($email,$this->getUser()->getEmail());
-        if (0 !== $isEqual && $isExist) {
+        $user = $this->getUser();
+        $isExist = $this->container->get('email.check')->checkEmailExists($user, $email);
+        if ($isExist) {
             $response = array('error' => 'Email id already exists');
+        } else {
+            $user->setEmail($email);
         }
         $response = new JsonResponse($response);
         return $response;

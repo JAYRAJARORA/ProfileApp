@@ -69,49 +69,7 @@ class SecurityController extends Controller
     public function sendEmailAction()
     {
         $email = ($this->get('request')->request->get('email'));
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $repo = $em->getRepository('UserBundle:User');
-        $result = $repo->findOneByEmailOrUsername($email);
-        if ($result) {
-            $rand_num = mt_rand();
-            $result->setForgotPassId($rand_num);
-            $epoch = time();
-            $current_time = date(
-                'Y-m-d H:i:s',
-                $epoch
-            );
-            $date = new DateTime($current_time);
-            $result->setTokenTime($date);
-            $em->flush();
-            $message = (new \Swift_Message('Hello Email'))
-                ->setFrom('jayraj.arora@gmail.com')
-                ->setTo('jkarora2612@gmail.com')
-                ->setBody(
-                    $this->renderView(
-                        '@User/Security/sendemail.html.twig',
-                        array(
-                            'forgot_pass_id' => $rand_num
-                        )
-                    ),
-                    'text/html'
-                );
-
-            $status= $this->get('mailer')->send($message);
-            if (1 === $status) {
-                $data = array(
-                    'success' => 'Reset link sent successfully'
-                );
-
-            } else {
-                $data = array(
-                    'error' => 'Unable to send data'
-                );
-            }
-        } else {
-            $data = array(
-                'error' => 'Sorry,email doesn\'t exists'
-            );
-        }
+        $data = $this->get('email.send')->sendEmail($email);
         $response = new JsonResponse($data);
         return $response;
     }
@@ -137,28 +95,25 @@ class SecurityController extends Controller
             $submit_time = $submit_time->format('Y-m-d H:i:s');
             $difference_in_seconds = strtotime($current_time) - strtotime($submit_time);
             if (($difference_in_seconds / 3600) > 1) {
-                return $this->render(
-                    'UserBundle:Security:expired.html.twig'
-                );
+                $request->getSession()->getFlashBag()->add('warning', 'Link Expired.Kindly reset the password again');
+                return $this->redirect($this->generateUrl('login_form'));
             } else {
                 $form = $this->createForm(new ResetPasswordFormType());
                 $form->handleRequest($request);
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $password = $form->getData();
-                    $encode_object = $this->container->get('encode_password');
-                    $user->setPassword($encode_object->encodePassword($user, $user->getPlainPassword()));
+                    $data = $form->getData();
+                    $encode_object = $this->container->get('password.encode');
+                    $user->setPassword($encode_object->encodePassword($user,$data['plainPassword']));
                     $em->persist($user);
                     $em->flush();
                     /** flashbag to show user only once */
                     $request->getSession()->getFlashBag()->add('success', 'Password Reset Successfully.');
                     $url = $this->generateUrl('login_form');
                     return $this->redirect($url);
-
-
                 }
                 return array('form'=>$form->createView(),
-                    'forgot_pass_id' => $forgot_pass_id);
+                    'forgot_pass_id' => $forgot_pass_id, 'user' => $user);
             }
         } else {
             throw new NotFoundHttpException("Page not found");

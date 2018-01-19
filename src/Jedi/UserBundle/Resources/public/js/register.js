@@ -8,17 +8,18 @@ $(document).ready(function () {
     $('#password').parent().append('<span class=" hide_password_details help-block" id="password_error">');
     $('#password_check').parent().append('<span class=" hide_password_check_details help-block" id="password_check_error">');
 
-    var alphabet_regex = /^[\sA-Za-z]+$/;
+    var username_regex = /^[a-zA-Z0-9]+$/;
     $('.hide_username_details').hide();
+    var alphabet_regex = /^[a-zA-Z]+$/;
 
-    function usernameValidate(username, alphabet_regex) {
+    function usernameValidate(username, username_regex) {
         if ('' === username) {
             $('#username').parent().addClass('has-error');
             $('#username_check').html('Please enter your username').show();
             return false;
-        } else if (!alphabet_regex.test(username)) {
+        } else if (!username_regex.test(username)) {
             $('#username').parent().addClass('has-error');
-            $('#username_check').html('Username can contain letters only').show();
+            $('#username_check').html('Username can contain letters amd digits only').show();
             return false;
         }
     }
@@ -28,7 +29,7 @@ $(document).ready(function () {
     });
     $('#username').blur(function () {
         var username = $('#username').val();
-        usernameValidate(username, alphabet_regex);
+        usernameValidate(username, username_regex);
     });
 
     $('.hide_firstname_details').hide();
@@ -160,17 +161,17 @@ $(document).ready(function () {
         var password_check = $('#password_check').val();
         var username = $('#username').val();
         var email = $('#email').val();
-        var firstnmae = $('#firstname').val();
+        var firstname = $('#firstname').val();
         var lastname = $('#lastname').val();
         var is_error = true;
 
-        if (false === usernameValidate(username, alphabet_regex)) {
+        if (false === usernameValidate(username, username_regex)) {
             is_error = false;
         }
-        if (false === fistnameValidate(firstname, alphabet_regex)) {
+        if (false === firstnameValidate(firstname, alphabet_regex)) {
             is_error = false;
         }
-        if (false === lastnamenameValidate(lastname, alphabet_regex)) {
+        if (false === lastnameValidate(lastname, alphabet_regex)) {
             is_error = false;
         }
         if (false === emailValidate(email, email_regex)) {

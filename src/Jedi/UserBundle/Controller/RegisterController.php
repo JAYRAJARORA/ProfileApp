@@ -33,7 +33,7 @@ class RegisterController extends Controller
         /** if submitted as post and is valid */
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $encode_object = $this->container->get('encode_password');
+            $encode_object = $this->container->get('password.encode');
             $user->setPassword($encode_object->encodePassword($user,$user->getPlainPassword()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

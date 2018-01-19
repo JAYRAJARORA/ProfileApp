@@ -1,4 +1,19 @@
+parameters:
+    set_from_email: jayraj.arora@gmail.com
+
 services:
-    encode_password:
+    password.encode:
       class: Jedi\UserBundle\Utils\EncodePassword
       arguments: [@security.encoder_factory]
+
+    email.check:
+      class: Jedi\UserBundle\Utils\CheckEmail
+      arguments: [@doctrine.orm.entity_manager]
+
+    email.send:
+          class: Jedi\UserBundle\Utils\SendEmail
+          arguments: [@doctrine.orm.entity_manager,@templating,@mailer,"%set_from_email%"]
+
+
+
+

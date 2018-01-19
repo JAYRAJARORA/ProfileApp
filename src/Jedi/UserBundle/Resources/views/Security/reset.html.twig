@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class=" col-md-offset-4 col-md-4">
-                <h2>Reset Password</h2>
+                <h2>Reset Password {{ user.username }}</h2>
                 <form name="reset_password" method="post" action="{{ path('reset_password',{'forgot_pass_id':forgot_pass_id})}}"
                       novalidate="novalidate">
                     {{ form_row(form.plainPassword.first,{

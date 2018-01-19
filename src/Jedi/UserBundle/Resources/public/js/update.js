@@ -166,21 +166,42 @@ $(document).ready(function () {
         var password_check = $('#password_check').val();
         var username = $('#username').val();
         var email = $('#email').val();
-        var firstnmae = $('#firstname').val();
+        var firstname = $('#firstname').val();
         var lastname = $('#lastname').val();
         var is_error = true;
 
         if (false === usernameValidate(username, alphabet_regex)) {
             is_error = false;
         }
-        if (false === fistnameValidate(firstname, alphabet_regex)) {
+        if (false === firstnameValidate(firstname, alphabet_regex)) {
             is_error = false;
         }
-        if (false === lastnamenameValidate(lastname, alphabet_regex)) {
+        if (false === lastnameValidate(lastname, alphabet_regex)) {
             is_error = false;
         }
         if (false === emailValidate(email, email_regex)) {
             is_error = false;
+        } else {
+            $.ajax({
+                type : 'POST',
+                url :  '/app_dev.php/check_email',
+                dataType: 'json',
+                data : {
+                    email : email
+                },
+                success : function (response) {
+                    var jsonresponse = response;
+                    if (jsonresponse !==null) {
+                        if (jsonresponse.hasOwnProperty('error')) {
+                            $('#email').parent().addClass('has-error');
+                            $('#email_check').html(jsonresponse.error).show();
+                        } else if (jsonresponse.hasOwnProperty('success')) {
+                        }
+                    }
+                },
+                error : function (response) {
+                }
+            });
         }
 
         if (false === passwordCheckValidate(password, password_check)) {
@@ -188,7 +209,9 @@ $(document).ready(function () {
         }
         if (true === $('#email_check').is(':visible')) {
             is_error = false;
+            console.log('hellllo')
         }
+        console.log('sdsdds');
         if (false === is_error) {
             return false;
         }
