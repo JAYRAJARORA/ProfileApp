@@ -21,10 +21,10 @@ class EncodePassword
      * @param $plainpassword
      * @return string
      */
-    public function encodePassword(User $user, $plainpassword)
+    public function encodePassword(User $user, $plainPassword)
     {
-        $encoder_password = $this->encoder->getEncoder($user);
-        return $encoder_password->encodePassword($plainpassword, $user->getSalt());
+        $encoderPassword = $this->encoder->getEncoder($user);
+        return $encoderPassword->encodePassword($plainPassword, $user->getSalt());
     }
 
 }
