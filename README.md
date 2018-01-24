@@ -7,21 +7,22 @@ What's inside?
 --------------
 
 The Profile App is configured with the following defaults:
-  * An AppBundle you can use to start coding;
-  * Twig as the only configured template engine;
-  * Doctrine ORM/DBAL;
-  * Swiftmailer;
-  * Annotations enabled for everything.
+* An AppBundle you can use to start coding;
+* Twig as the only configured template engine;
+* Doctrine ORM/DBAL;
+* Swiftmailer;
+* Annotations enabled for everything.
 
 It comes pre-configured with the following bundles:
-  * **FrameworkBundle** - The core Symfony framework bundle
-  * [**SensioFrameworkExtraBundle**] - Adds several enhancements, including
+
+* **FrameworkBundle** - The core Symfony framework bundle
+* **SensioFrameworkExtraBundle** - Adds several enhancements, including
     template and routing annotation capability
-  * [**DoctrineBundle**] - Adds support for the Doctrine ORM
-  * [**TwigBundle**] - Adds support for the Twig templating engine
-  * [**SecurityBundle**] - Adds security by integrating Symfony's security
+* **DoctrineBundle** - Adds support for the Doctrine ORM
+* **TwigBundle** - Adds support for the Twig templating engine
+* **SecurityBundle** - Adds security by integrating Symfony's security
     component
-  * [**SwiftmailerBundle**] - Adds support for Swiftmailer, a library for
+* **SwiftmailerBundle** - Adds support for Swiftmailer, a library for
     sending emails
 
 It contains the following bundle:
