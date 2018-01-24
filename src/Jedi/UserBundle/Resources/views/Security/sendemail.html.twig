@@ -1,7 +1,9 @@
-<head></head>
-<body>
-<div>Kindly click here to change password.The link will expire in 1 hour.
-    <a href="{{ absolute_url(path('reset_password',{'forgot_pass_id':forgot_pass_id}))}}">Reset Password</a>
-</div>
-</body>
+<html>
+    <body>
+        <div>Kindly click here to change password.The link will expire in 1 hour.
+        <a href="{{ absolute_url(path('reset_password',
+        {'forgot_pass_id':forgot_pass_id}))
+        }}">Reset Password</a>
+        </div>
+    </body>
 </html>

@@ -1,4 +1,23 @@
 <?php
+
+/**
+ * Data Fixtures to load dummy users
+ *
+ * PHP version 7.0
+ *
+ * LICENSE: This program is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  DataFixtures
+ * @package   UserBundle
+ * @author    Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @copyright 1997-2005 The PHP Group
+ * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version   SVN: $Id$
+ * @link      http://pear.php.net/package/PackageName
+ */
 namespace Jedi\UserBundle\DataFixtures\ORM;
 
 use Jedi\UserBundle\Entity\User;
@@ -8,21 +27,35 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class LoadUsers implements FixtureInterface,ContainerAwareInterface,OrderedFixtureInterface
+/**
+ * Class Load Users Doc Comment
+ *
+ * @category DataFixtures
+ * @package  UserBundle
+ * @author   Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @license  http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @link     http://pear.php.net/package/PackageName
+ */
+class LoadUsers implements FixtureInterface,
+    ContainerAwareInterface,OrderedFixtureInterface
 {
     /**
+     * Get the container object  in the data fixtures class
+     *
      * @var ContainerInterface
      */
-    private $container;
+    private $_container;
 
     /**
      * Load the new dummy users in the db
      *
-     * @param ObjectManager $manager
+     * @param ObjectManager $manager manager to persist the object to the dB.
+     *
+     * @return null
      */
     public function load(ObjectManager $manager)
     {
-        $encode_object = $this->container->get('password.encode');
+        $encode_object = $this->_container->get('password.encode');
         $user = new User();
         $user->setUsername('darth');
         $user->setFirstname('darth');
@@ -43,33 +76,24 @@ class LoadUsers implements FixtureInterface,ContainerAwareInterface,OrderedFixtu
 
 
         $manager->flush();
-    }
 
-    /**
-     * Encodes the password using bcrypt
-     *
-     * @param User $user
-     * @param $plainpassword
-     * @return string
-     */
-    private function encodePassword(User $user, $plainpassword)
-    {
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        return $encoder->encodePassword($plainpassword, $user->getSalt());
+        return null;
     }
 
     /**
      * Allow usage of container services here
      *
-     * @param ContainerInterface|null $container
+     * @param ContainerInterface|null $container Set the Container object
+     *
+     * @return void
      */
     public function setContainer(ContainerInterface $container = null)
     {
-         $this->container = $container;
+         $this->_container = $container;
     }
 
     /**
-     * allow ordering of fixtures using ordered interface
+     * Allow ordering of fixtures using ordered interface
      *
      * @return int
      */

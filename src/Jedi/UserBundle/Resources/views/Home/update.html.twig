@@ -1,4 +1,5 @@
 {% extends 'UserBundle::header.html.twig' %}
+{% block title %}Update Profile{% endblock %}
 {% form_theme form 'UserBundle:Register:fields.html.twig' %}
 
 {% block body %}
@@ -7,6 +8,11 @@
         <div class="row">
             <div class=" col-md-offset-4 col-md-4">
                 <h2>Update Profile</h2>
+                {%- if has_error -%}
+                    <div class="alert alert-danger fade in">
+                        {{ has_error }}
+                    </div>
+                {%- endif -%}
                 <form action="{{ path('update') }}" method="POST" novalidate="novalidate" id="xyz">
                     {{ form_row(
                     form.username,{

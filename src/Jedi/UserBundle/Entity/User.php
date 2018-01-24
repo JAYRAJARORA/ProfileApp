@@ -1,128 +1,184 @@
 <?php
 
+/**
+ * User Entity to make model of user
+ *
+ * PHP version 7.0
+ *
+ * LICENSE: This program is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @category  DataFixtures
+ * @package   UserBundle
+ * @author    Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @copyright 1997-2005 The PHP Group
+ * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version   SVN: $Id$
+ * @link      http://pear.php.net/package/PackageName
+ */
+
 namespace Jedi\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * User
+ * Class User Doc Comment
+ *
+ * @category UserEntity
+ * @package  UserBundle
+ * @author   Jayraj Arora <jayraja@mindfiresolutions.com>
+ * @license  http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @link     http://pear.php.net/package/PackageName
  *
  * @ORM\Table(name="jedi_user")
  * @ORM\Entity(repositoryClass="Jedi\UserBundle\Repository\UserRepository")
- * @UniqueEntity(fields="email",message="That email already exists")
- * @UniqueEntity(fields="username",message="That username already exists")
- * @UniqueEntity(fields="forgot_pass_id")
+ * @UniqueEntity(
+ *     fields="_email",
+ *     message="That email already exists"
+ * )
+ *
+ * @UniqueEntity(fields="_username",message="That username already exists")
+ * @UniqueEntity(fields="_forgot_pass_id")
  */
 class User implements AdvancedUserInterface,\Serializable
 {
     /**
+     * Id property
+     *
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(
+     *     name="id",
+     *     type="integer"
+     * )
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $_id;
 
-
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
     }
 
 
     /**
-     *@var int
+     * Forgot passowrd id property
      *
-     * @ORM\Column(name="forgot_pass_id",type="integer",options={"default": 0},nullable=true)
+     * @var int
+     *
+     * @ORM\Column(name="forgot_pass_id", type="integer",
+     *     options={"default": 0}, nullable=true)
      */
-    private $forgot_pass_id;
+    private $_forgot_pass_id;
 
     /**
+     * Token Time property
+     *
      * @var \DateTime
      *
-     * @ORM\Column(name="token_time", type="datetime",nullable=true)
+     * @ORM\Column(name="token_time", type="datetime", nullable=true)
      */
-    private $token_time;
+    private $_token_time;
     
     /**
-     * @var string
+     * Username property
      *
-     * @Assert\Length(min=3, minMessage="Username should be Atleast 3 characters")
+     * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
-    private $username;
+    private $_username;
 
     /**
+     * Password property
+     *
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
-    private $password;
+    private $_password;
 
     /**
+     * Roles property
+     *
      * @var array
      *
      * @ORM\Column(name="roles", type="json_array")
      */
-    private $roles = array();
+    private $_roles = array();
 
     /**
+     * Is active user property
+     *
      * @var bool
      *
      * @ORM\Column(name="is_active",type="boolean")
      */
-    private $isActive = true;
+    private $_isActive = true;
 
 
     /**
-     * Just stores the data temporaily
+     * Just stores the data temporarily
      *
      * @var string
      */
-    private $plainPassword;
+    private $_plainPassword;
 
 
     /**
+     * Firstname property
+     *
      * @var string
      *
      * @ORM\Column(name="firstname",type="string",length=40)
      */
-    private $firstname;
+    private $_firstname;
 
 
     /**
+     * Lastname property
+     *
      * @var string
      *
      * @ORM\Column(name="lastname",type="string",length=40, nullable=true)
      */
-    private $lastname;
+    private $_lastname;
 
     /**
+     * Address property
+     *
      * @var string
      *
      * @ORM\Column(name="address", type="text",nullable=true)
      */
-    private $address;
+    private $_address;
 
 
     /**
+     * Gender of user
+     *
      * @var bool
      *
-     * @ORM\Column(name="gender", type="string",length=20,options={"default": "male"})
+     * @ORM\Column(name="gender", type="string",
+     *     length=20,options={"default": "male"})
      */
-    private $gender = "male";
+    private $_gender = "male";
 
     /**
+     * Email id property
+     *
      * @var
      *
-     * @Assert\Email()
      * @ORM\Column(name="email", type="string", length=255,unique=true)
      */
-    private $email;
+    private $_email;
 
     /**
      * Get id
@@ -131,24 +187,22 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getId()
     {
-        return $this->id;
+        return $this->_id;
     }
 
     /**
      * Set username
      *
-     * @param string $username
+     * @param string $username Set username
      *
      * @return User
      */
     public function setUsername($username)
     {
-        $this->username = $username;
+        $this->_username = $username;
 
         return $this;
     }
-
-
 
     /**
      * Get username
@@ -157,19 +211,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->_username;
     }
 
     /**
      * Set password
      *
-     * @param string $password
+     * @param string $password Set password
      *
      * @return User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->_password = $password;
 
         return $this;
     }
@@ -181,78 +235,129 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->_password;
     }
 
-
+    /**
+     * Retrieve roles
+     *
+     * @return array Roles array
+     */
     public function getRoles()
     {
-        $roles = $this->roles;
+        $roles = $this->_roles;
 
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
+    /**
+     * Set the roles of user
+     *
+     * @param array $roles Roles array
+     *
+     * @return $this
+     */
     public function setRoles(array $roles)
     {
-        $this->roles = $roles;
+        $this->_roles = $roles;
 
         return $this;
     }
 
     /**
-     * @param bool $isActive
+     * Set if the user is active
+     *
+     * @param bool $isActive If the user is active
+     *
+     * @return void
      */
     public function setIsActive($isActive)
     {
-        $this->isActive = $isActive;
+        $this->_isActive = $isActive;
     }
 
     /**
+     * Retrieve if the user is active or not
+     *
      * @return boolean
      */
     public function getIsActive()
     {
-        return $this->isActive;
+        return $this->_isActive;
     }
+
+    /**
+     * Get salt of user
+     *
+     * @return null
+     */
     public function getSalt()
     {
         return null;
     }
 
+    /**
+     * Set the user credentials
+     *
+     * @return void
+     */
     public function eraseCredentials()
     {
         $this->setPlainPassword(null);
     }
 
+    /**
+     * Expire the user's account
+     *
+     * @return bool
+     */
     public function isAccountNonExpired()
     {
         return true;
     }
+
+    /**
+     * Lock the user account
+     *
+     * @return bool
+     */
     public function isAccountNonLocked()
     {
         return true;
     }
+
+    /**
+     * Check if the user's credentials are valid
+     *
+     * @return bool
+     */
     public function isCredentialsNonExpired()
     {
         return true;
     }
+
+    /**
+     * Check to see if the account is enabled
+     *
+     * @return bool
+     */
     public function isEnabled()
     {
-        return $this->isActive;
+        return $this->_isActive;
     }
 
     /**
      * Set email
      *
-     * @param string $email
+     * @param string $email Email property
      *
      * @return User
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->_email = $email;
 
         return $this;
     }
@@ -264,51 +369,67 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->_email;
     }
     /**
      * String reperesentation of the object
+     *
      * @return string representation of the null or null
      */
     public function serialize()
     {
         return serialize(
             array(
-                $this->id,
-                $this->username,
-                $this->password
+                $this->_id,
+                $this->_username,
+                $this->_password
             )
         );
     }
 
     /**
-     * @param string $serialized
+     * Unserialize the object
+     *
+     * @param string $serialized Serialized object
+     *
+     * @return void
      */
     public function unserialize($serialized)
     {
         list(
-            $this->id,
-            $this->username,
-            $this->password
+            $this->_id,
+            $this->_username,
+            $this->_password
             ) = unserialize($serialized);
     }
 
     /**
-     * @param string $plainPassword
+     * Set Plain password
+     *
+     * @param string $plainPassword Password
+     *
+     * @return void
      */
     public function setPlainPassword($plainPassword)
     {
-        $this->plainPassword = $plainPassword;
+        $this->_plainPassword = $plainPassword;
     }
 
     /**
+     * Retrieve plainPassword
+     *
      * @return string
      */
     public function getPlainPassword()
     {
-        return $this->plainPassword;
+        return $this->_plainPassword;
     }
 
+    /**
+     * String representation of the user object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return (string) $this->getUsername();
@@ -318,12 +439,13 @@ class User implements AdvancedUserInterface,\Serializable
     /**
      * Set forgot_pass_id
      *
-     * @param integer $forgotPassId
+     * @param integer $forgotPassId Forgot password id
+     *
      * @return User
      */
     public function setForgotPassId($forgotPassId)
     {
-        $this->forgot_pass_id = $forgotPassId;
+        $this->_forgot_pass_id = $forgotPassId;
 
         return $this;
     }
@@ -335,19 +457,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getForgotPassId()
     {
-        return $this->forgot_pass_id;
+        return $this->_forgot_pass_id;
     }
 
     /**
      * Set token_time
      *
-     * @param \DateTime $tokenTime
+     * @param \DateTime $tokenTime Token time for resetting password
+     *
      * @return User
      */
     public function setTokenTime($tokenTime)
     {
-        $this->token_time = $tokenTime;
-
+        $this->_token_time = $tokenTime;
         return $this;
     }
 
@@ -358,18 +480,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getTokenTime()
     {
-        return $this->token_time;
+        return $this->_token_time;
     }
 
     /**
      * Set firstname
      *
-     * @param string $firstname
+     * @param string $firstname Firstname of user
+     *
      * @return User
      */
     public function setFirstname($firstname)
     {
-        $this->firstname = $firstname;
+        $this->_firstname = $firstname;
 
         return $this;
     }
@@ -381,18 +504,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getFirstname()
     {
-        return $this->firstname;
+        return $this->_firstname;
     }
 
     /**
      * Set lastname
      *
-     * @param string $lastname
+     * @param string $lastname Lastname of user
+     *
      * @return User
      */
     public function setLastname($lastname)
     {
-        $this->lastname = $lastname;
+        $this->_lastname = $lastname;
 
         return $this;
     }
@@ -404,18 +528,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getLastname()
     {
-        return $this->lastname;
+        return $this->_lastname;
     }
 
     /**
      * Set address
      *
-     * @param string $address
+     * @param string $address Address of user
+     *
      * @return User
      */
     public function setAddress($address)
     {
-        $this->address = $address;
+        $this->_address = $address;
 
         return $this;
     }
@@ -427,18 +552,19 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getAddress()
     {
-        return $this->address;
+        return $this->_address;
     }
 
     /**
      * Set gender
      *
-     * @param boolean $gender
+     * @param boolean $gender Gender of user
+     *
      * @return User
      */
     public function setGender($gender)
     {
-        $this->gender = $gender;
+        $this->_gender = $gender;
 
         return $this;
     }
@@ -450,6 +576,6 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function getGender()
     {
-        return $this->gender;
+        return $this->_gender;
     }
 }

@@ -102,7 +102,28 @@ $(document).ready(function () {
     });
     $('#email').blur(function () {
         var email = $('#email').val();
-        emailValidate(email, email_regex);
+        if (true === emailValidate(email, email_regex)) {
+            $.ajax({
+                type : 'POST',
+                url :  '/app_dev.php/register/check_email',
+                dataType: 'json',
+                data : {
+                    email : email
+                },
+                success : function (response) {
+                    var jsonresponse = response;
+                    if (jsonresponse !==null) {
+                        if (jsonresponse.hasOwnProperty('error')) {
+                            $('#email').parent().addClass('has-error');
+                            $('#email_check').html(jsonresponse.error).show();
+                        } else if (jsonresponse.hasOwnProperty('success')) {
+                        }
+                    }
+                },
+                error : function (response) {
+                }
+            });
+        }
     });
 
     /* client side validation for password */

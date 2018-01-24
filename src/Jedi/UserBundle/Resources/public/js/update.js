@@ -106,7 +106,7 @@ $(document).ready(function () {
         if (true === emailValidate(email, email_regex)) {
             $.ajax({
                 type : 'POST',
-                url :  '/app_dev.php/check_email',
+                url :  '/app_dev.php/update/check_email',
                 dataType: 'json',
                 data : {
                     email : email
@@ -184,7 +184,7 @@ $(document).ready(function () {
         } else {
             $.ajax({
                 type : 'POST',
-                url :  '/app_dev.php/check_email',
+                url :  '/app_dev.php/update/check_email',
                 dataType: 'json',
                 data : {
                     email : email
@@ -209,7 +209,6 @@ $(document).ready(function () {
         }
         if (true === $('#email_check').is(':visible')) {
             is_error = false;
-            console.log('hellllo')
         }
         console.log('sdsdds');
         if (false === is_error) {
