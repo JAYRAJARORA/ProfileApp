@@ -13,7 +13,7 @@
                     </div>
                 {%- endif -%}
                 <form name="reset_password" method="post" action="{{ path('reset_password',
-                {'forgot_pass_id':forgot_pass_id})
+                {'forgotPassId':forgotPassId})
                 }}"
                       novalidate="novalidate">
                     {{ form_row(form.plainPassword.first,{

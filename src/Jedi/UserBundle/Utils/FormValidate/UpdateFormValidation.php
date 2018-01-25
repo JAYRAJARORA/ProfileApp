@@ -41,11 +41,9 @@ class UpdateFormValidation
      */
     public function validateUpdateForm($data)
     {
-        $firstname = $data['firstname'];
-        $lastname = $data['lastname'];
-        $email = $data['email'];
-
-
+        $firstname = htmlentities($data['firstname']);
+        $lastname = htmlentities($data['lastname']);
+        $email = htmlentities($data['email']);
         $errors = '';
 
         if ($firstname == '' || !preg_match('/^[a-zA-Z][a-zA-Z ]*$/', $firstname)) {

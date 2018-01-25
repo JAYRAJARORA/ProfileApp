@@ -96,7 +96,7 @@ class SendEmail
                     $this->_templating->render(
                         '@User/Security/sendemail.html.twig',
                         array(
-                            'forgot_pass_id' => $rand_num
+                            'forgotPassId' => $rand_num
                         )
                     ),
                     'text/html'

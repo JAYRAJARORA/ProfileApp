@@ -124,23 +124,23 @@ class SecurityController extends Controller
      * Reset Action to reset the password if user forgets the password
      * and link is expired in 1 hr.
      *
-     * @param integer $forgot_pass_id unique token to check
-     *                                which user wants to reset the password
-     * @param Request $request        To handle the incoming data
+     * @param integer $forgotPassId unique token to check
+     *                              which user wants to reset the password
+     * @param Request $request      To handle the incoming data
      *
      * @return mixed Url redirect if user successfully update
      * the password or the link is expired or an Exception if the page is not found
      *
-     * @Route("/reset/{forgot_pass_id}",name="reset_password")
+     * @Route("/reset/{forgotPassId}",name="reset_password")
      * @Template
      */
-    public function resetAction($forgot_pass_id,Request $request)
+    public function resetAction($forgotPassId,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(User::class);
         $user = $repo->findOneBy(
             array(
-            '_forgot_pass_id' => $forgot_pass_id
+            '_forgotPassId' => $forgotPassId
             )
         );
         if ($user) {
@@ -190,7 +190,7 @@ class SecurityController extends Controller
                 }
 
                 return array('form'=>$form->createView(),
-                    'forgot_pass_id' => $forgot_pass_id,
+                    'forgotPassId' => $forgotPassId,
                     'user' => $user, 'has_error' => $has_error);
             }
         } else {

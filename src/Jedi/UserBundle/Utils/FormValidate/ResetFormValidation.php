@@ -43,7 +43,7 @@ class ResetFormValidation
      */
     public function validateResetForm($data)
     {
-        $password = $data['plainPassword'];
+        $password = htmlentities($data['plainPassword']);
         $errors = '';
 
         if ($password == '') {

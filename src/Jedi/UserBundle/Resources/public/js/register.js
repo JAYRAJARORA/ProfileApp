@@ -1,12 +1,18 @@
 /* form validation using jquery */
 $(document).ready(function () {
 
-    $('#email').parent().append('<span class="hide_email_details help-block" id="email_check">');
-    $('#username').parent().append(' <span class="hide_username_details help-block"id="username_check"></span>');
-    $('#firstname').parent().append(' <span class="hide_firstname_details help-block"id="firstname_check"></span>');
-    $('#lastname').parent().append(' <span class="hide_lastname_details help-block"id="lastname_check"></span>');
-    $('#password').parent().append('<span class=" hide_password_details help-block" id="password_error">');
-    $('#password_check').parent().append('<span class=" hide_password_check_details help-block" id="password_check_error">');
+    $('#email').parent().append('<span class="hide_email_' +
+        'details help-block" id="email_check">');
+    $('#username').parent().append(' <span class="hide_username_' +
+        'details help-block"id="username_check"></span>');
+    $('#firstname').parent().append(' <span class="hide_firstname_' +
+        'details help-block"id="firstname_check"></span>');
+    $('#lastname').parent().append(' <span class="hide_lastname_' +
+        'details help-block"id="lastname_check"></span>');
+    $('#password').parent().append('<span class=" hide_password_' +
+        'details help-block" id="password_error">');
+    $('#password_check').parent().append('<span class=" hide_password_check_' +
+        'details help-block" id="password_check_error">');
 
     var username_regex = /^[a-zA-Z0-9]+$/;
     $('.hide_username_details').hide();
@@ -22,6 +28,7 @@ $(document).ready(function () {
             $('#username_check').html('Username can contain letters amd digits only').show();
             return false;
         }
+        return true;
     }
     /* validation upon blur and focus */
     $('#username').focus(function () {
@@ -29,7 +36,29 @@ $(document).ready(function () {
     });
     $('#username').blur(function () {
         var username = $('#username').val();
-        usernameValidate(username, username_regex);
+        if (true === usernameValidate(username, username_regex)) {
+            console.log('hello');
+            $.ajax({
+                type : 'POST',
+                url :  '/app_dev.php/register/check_username',
+                dataType: 'json',
+                data : {
+                    username : username
+                },
+                success : function (response) {
+                    var jsonresponse = response;
+                    if (jsonresponse !==null) {
+                        if (jsonresponse.hasOwnProperty('error')) {
+                            $('#username').parent().addClass('has-error');
+                            $('#username_check').html(jsonresponse.error).show();
+                        } else if (jsonresponse.hasOwnProperty('success')) {
+                        }
+                    }
+                },
+                error : function (response) {
+                }
+            });
+        }
     });
 
     $('.hide_firstname_details').hide();
@@ -53,9 +82,6 @@ $(document).ready(function () {
         var firstname = $('#firstname').val();
         firstnameValidate(firstname, alphabet_regex);
     });
-
-
-
 
     $('.hide_lastname_details').hide();
 
@@ -202,6 +228,12 @@ $(document).ready(function () {
             is_error = false;
         }
         if (false === passwordCheckValidate(password, password_check)) {
+            is_error = false;
+        }
+        if (true === $('#email_check').is(':visible')) {
+            is_error = false;
+        }
+        if (true === $('#username_check').is(':visible')) {
             is_error = false;
         }
         if (false === is_error) {

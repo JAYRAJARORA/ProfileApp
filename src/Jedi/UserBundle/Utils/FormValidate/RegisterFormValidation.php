@@ -44,11 +44,11 @@ class RegisterFormValidation
     public function validateRegisterForm(User $user)
     {
         $alphabet_regex = '/^[a-zA-Z][a-zA-Z ]*$/';
-        $username = $user->getUsername();
-        $firstname = $user->getFirstname();
-        $lastname = $user->getLastname();
-        $password = $user->getPlainPassword();
-        $email = $user->getEmail();
+        $username = htmlentities($user->getUsername());
+        $firstname = htmlentities($user->getFirstname());
+        $lastname = htmlentities($user->getLastname());
+        $password = htmlentities($user->getPlainPassword());
+        $email = htmlentities($user->getEmail());
         $errors = '';
 
         if ('' === $username) {

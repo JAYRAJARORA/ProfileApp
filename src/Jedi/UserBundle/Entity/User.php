@@ -42,7 +42,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  *
  * @UniqueEntity(fields="_username",message="That username already exists")
- * @UniqueEntity(fields="_forgot_pass_id")
+ * @UniqueEntity(fields="_forgotPassId")
  */
 class User implements AdvancedUserInterface,\Serializable
 {
@@ -76,7 +76,7 @@ class User implements AdvancedUserInterface,\Serializable
      * @ORM\Column(name="forgot_pass_id", type="integer",
      *     options={"default": 0}, nullable=true)
      */
-    private $_forgot_pass_id;
+    private $_forgotPassId;
 
     /**
      * Token Time property
@@ -85,7 +85,7 @@ class User implements AdvancedUserInterface,\Serializable
      *
      * @ORM\Column(name="token_time", type="datetime", nullable=true)
      */
-    private $_token_time;
+    private $_tokenTime;
     
     /**
      * Username property
@@ -437,7 +437,7 @@ class User implements AdvancedUserInterface,\Serializable
 
 
     /**
-     * Set forgot_pass_id
+     * Set forgot Password unique id
      *
      * @param integer $forgotPassId Forgot password id
      *
@@ -445,23 +445,23 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function setForgotPassId($forgotPassId)
     {
-        $this->_forgot_pass_id = $forgotPassId;
+        $this->_forgotPassId = $forgotPassId;
 
         return $this;
     }
 
     /**
-     * Get forgot_pass_id
+     * Get forgot password id
      *
      * @return integer 
      */
     public function getForgotPassId()
     {
-        return $this->_forgot_pass_id;
+        return $this->_forgotPassId;
     }
 
     /**
-     * Set token_time
+     * Set token time
      *
      * @param \DateTime $tokenTime Token time for resetting password
      *
@@ -469,18 +469,18 @@ class User implements AdvancedUserInterface,\Serializable
      */
     public function setTokenTime($tokenTime)
     {
-        $this->_token_time = $tokenTime;
+        $this->_tokenTime = $tokenTime;
         return $this;
     }
 
     /**
-     * Get token_time
+     * Get token time
      *
      * @return \DateTime 
      */
     public function getTokenTime()
     {
-        return $this->_token_time;
+        return $this->_tokenTime;
     }
 
     /**
