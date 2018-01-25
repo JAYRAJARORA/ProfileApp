@@ -10,6 +10,10 @@ services:
       class: Jedi\UserBundle\Utils\CheckEmail
       arguments: [@doctrine.orm.entity_manager]
 
+    username.check:
+          class: Jedi\UserBundle\Utils\CheckUsername
+          arguments: [@doctrine.orm.entity_manager]
+
     email.send:
           class: Jedi\UserBundle\Utils\SendEmail
           arguments: [@doctrine.orm.entity_manager,@templating,@mailer,"%set_from_email%"]
@@ -25,4 +29,6 @@ services:
     validate.reset:
           class: Jedi\UserBundle\Utils\FormValidate\ResetFormValidation
           arguments: []
+
+
 

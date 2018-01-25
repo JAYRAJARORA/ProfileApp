@@ -128,4 +128,31 @@ class RegisterController extends Controller
         $response = new JsonResponse($response);
         return $response;
     }
+
+
+    /**
+     * Helper action to check the username for checking if username already exists
+     *
+     * @param Request $request to handle data coming
+     *
+     * @return JsonResponse $response Response of error message if id exists
+     * or else null for success response
+     *
+     * @Route("/register/check_username", name="checkRegisterUsername")
+     */
+    public function checkUsernameAction(Request $request)
+    {
+        $username = ($this->get('request')->request->get('username'));
+        $isExist = $this->container->get(
+            'username.check'
+        )->checkUsername($username);
+
+        if ($isExist) {
+            $response = array('error' => 'Username already exists');
+        } else {
+            $response = array('success' => 'Valid id');
+        }
+        $response = new JsonResponse($response);
+        return $response;
+    }
 }
