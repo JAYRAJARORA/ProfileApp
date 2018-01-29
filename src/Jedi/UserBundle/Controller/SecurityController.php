@@ -177,6 +177,7 @@ class SecurityController extends Controller
                                 $user, $data['plainPassword']
                             )
                         );
+                        $user->setForgotPassId(null);
                         $em->persist($user);
                         $em->flush();
 
