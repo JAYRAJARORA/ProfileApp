@@ -97,11 +97,12 @@ class HomeController extends Controller
         }
 
         $data = null;
+        $user = $this->getUser();
         // update form
         $form = $this->createForm(
             UpdateFormType::class,
             $data,
-            array('user' => $this->getUser())
+            array('user' => $user)
         );
 
         // handles validation for the user object coming
@@ -110,27 +111,34 @@ class HomeController extends Controller
         // if submitted as post and is valid
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $isSameData = $this->get('validate.same_data')->checkForSameData($data, $user);
+            if ($isSameData) {
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('info', 'No changes were made');
+                $url = $this->generateUrl('home_page');
+
+                return $this->redirect($url);
+            }
             $has_error = $this->get('validate.update')->validateUpdateForm($data);
             if (!$has_error) {
-                $user = $this->getUser();
                 $em = $this->getDoctrine()->getManager();
                 $user->setFirstname($data['firstname']);
                 $user->setLastname($data['lastname']);
                 $user->setAddress($data['address']);
                 $user->setGender($data['gender']);
-
-                if ('' !== $user->getPlainPassword()) {
+                $user->setEmail($data['email']);
+                if ('' != $data['plainPassword']) {
                     $encode_object = $this->container->get(
                         'password.encode'
                     );
                     $user->setPassword(
                         $encode_object->encodePassword(
                             $user,
-                            $user->getPlainPassword()
+                            $data['plainPassword']
                         )
                     );
                 }
-
                 $em->persist($user);
                 $em->flush();
                 // flashbag to show user only once
@@ -167,11 +175,8 @@ class HomeController extends Controller
             ->checkEmailExistsInUpdate(
                 $user, $email
             );
-
         if ($isExist) {
             $response = array('error' => 'Email id already exists');
-        } else {
-            $user->setEmail($email);
         }
         $response = new JsonResponse($response);
 

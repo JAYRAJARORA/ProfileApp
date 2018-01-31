@@ -12,6 +12,14 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+                {% if app.session.flashbag.has('info') %}
+                    <div class="alert alert-info">
+                        {% for msg in app.session.flashbag.get('info') %}
+                            {{ msg }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <h1>Welcome {{ user.username }}</h1>
                 <p>Email: <span class="text-info">{{ user.email }}</span></p>
                 {% if user.firstname %}

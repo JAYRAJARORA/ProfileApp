@@ -30,5 +30,8 @@ services:
           class: Jedi\UserBundle\Utils\FormValidate\ResetFormValidation
           arguments: []
 
+    validate.same_data:
+          class: Jedi\UserBundle\Utils\SameDataEntered
+          arguments: [@password.encode]
 
 
