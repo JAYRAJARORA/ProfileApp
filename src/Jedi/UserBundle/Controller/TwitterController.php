@@ -23,6 +23,7 @@
 namespace Jedi\UserBundle\Controller;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use http\Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,7 +47,7 @@ class TwitterController extends Controller
      *
      * @return mixed Url redirect if user does'nt have the access token
      * or else tweets page with the first 25 tweets of the users.
-     *
+     * @throws \Exception $e
      * @Route("/twitter",name="tweets")
      * @Template()
      */
@@ -67,14 +68,18 @@ class TwitterController extends Controller
                 $this->container->getParameter('consumer_key'),
                 $this->container->getParameter('consumer_secret')
             );
-            $request_token = $connection->oauth(
-                'oauth/request_token',
-                array(
-                    'oauth_callback' => $this->redirect(
-                        $this->generateUrl('twitter_callback')
+            try {
+                $request_token = $connection->oauth(
+                    'oauth/request_token',
+                    array(
+                        'oauth_callback' => $this->redirect(
+                            $this->generateUrl('twitter_callback')
+                        )
                     )
-                )
-            );
+                );
+            } catch (\Exception $e) {
+                throw new \Exception('Unable to process request');
+            }
             $this->get('session')->set('oauth_token', $request_token['oauth_token']);
             $this->get('session')
                 ->set('oauth_token_secret', $request_token['oauth_token_secret']);
@@ -107,12 +112,12 @@ class TwitterController extends Controller
      *
      * @return mixed Url redirect to the tweets page
      * with the access token in session set
-     *
+     * @throws \Exception $e
      * @Route("/callback",name="twitter_callback")
      */
     public function callbackAction()
     {
-        if (!$this->container->get(
+        if (!$this->get(
             'security.authorization_checker'
         )->isGranted(
             'IS_AUTHENTICATED_REMEMBERED'
@@ -132,13 +137,17 @@ class TwitterController extends Controller
             $request_token['oauth_token'],
             $request_token['oauth_token_secret']
         );
-        $access_token = $connection->oauth(
-            'oauth/access_token',
-            array(
-                'oauth_verifier' => $this->get('request')
-                    ->query->get('oauth_verifier')
-            )
-        );
+        try {
+            $access_token = $connection->oauth(
+                'oauth/access_token',
+                array(
+                    'oauth_verifier' => $this->get('request')
+                        ->query->get('oauth_verifier')
+                )
+            );
+        } catch (\Exception $e) {
+            throw new \Exception('Unable to process request');
+        }
         $this->get('session')->set('access_token', $access_token);
         return  $this->redirect($this->generateUrl('tweets'));
     }

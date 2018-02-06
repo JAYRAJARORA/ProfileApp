@@ -35,10 +35,10 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
  */
 class SendEmail
 {
-    private $_em;
-    private $_templating;
-    private $_mailer;
-    private $_set_from_email;
+    private $em;
+    private $templating;
+    private $mailer;
+    private $set_from_email;
 
     /**
      * SendEmail constructor.
@@ -57,12 +57,12 @@ class SendEmail
         EntityManager $em,
         TwigEngine $templating,
         \Swift_Mailer $mailer,
-        $set_from_email=null
+        $set_from_email = null
     ) {
-        $this->_em = $em;
-        $this->_templating = $templating;
-        $this->_mailer = $mailer;
-        $this->_set_from_email = $set_from_email;
+        $this->em = $em;
+        $this->templating = $templating;
+        $this->mailer = $mailer;
+        $this->set_from_email = $set_from_email;
     }
 
     /**
@@ -74,7 +74,7 @@ class SendEmail
      */
     public function sendEmail($email)
     {
-        $repo = $this->_em->getRepository('UserBundle:User');
+        $repo = $this->em->getRepository('UserBundle:User');
         $user = $repo->findOneBy(['_email'=> $email]);
         if ($user) {
             $rand_num = mt_rand();
@@ -86,14 +86,14 @@ class SendEmail
             );
             $date = new \DateTime($current_time);
             $user->setTokenTime($date);
-            $this->_em->flush();
+            $this->em->flush();
             $message = (
                 new \Swift_Message('Reset Password Link for the Profile App')
             )
-                ->setFrom($this->_set_from_email)
+                ->setFrom($this->set_from_email)
                 ->setTo($email)
                 ->setBody(
-                    $this->_templating->render(
+                    $this->templating->render(
                         '@User/Security/sendemail.html.twig',
                         array(
                             'forgotPassId' => $rand_num
@@ -102,12 +102,11 @@ class SendEmail
                     'text/html'
                 );
 
-            $status= $this->_mailer->send($message);
+            $status= $this->mailer->send($message);
             if (1 === $status) {
                 $data = array(
                     'success' => 'Reset link sent successfully'
                 );
-
             } else {
                 $data = array(
                     'error' => 'Unable to send data'

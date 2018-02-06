@@ -55,7 +55,8 @@ class UpdateFormType extends AbstractType
     {
         $user = $options['user'];
         $builder->add(
-            'username', TextType::class,
+            'username',
+            TextType::class,
             array(
                 'attr' => array(
                     'placeholder'=>'Enter Username',
@@ -63,7 +64,8 @@ class UpdateFormType extends AbstractType
                 )
             )
         )->add(
-            'firstname', TextType::class,
+            'firstname',
+            TextType::class,
             array(
                 'attr' => array(
                     'placeholder'=>'Enter Firstname',
@@ -71,14 +73,17 @@ class UpdateFormType extends AbstractType
                 )
             )
         )->add(
-            'lastname', TextType::class, array(
+            'lastname',
+            TextType::class,
+            array(
                 'attr' => array(
                     'placeholder'=>'Enter Lastname',
                     'class'=> 'form-control'
                 )
             )
         )->add(
-            'email', EmailType::class,
+            'email',
+            EmailType::class,
             array(
                 'label' => 'Email Address',
                 'attr' => array(
@@ -87,7 +92,8 @@ class UpdateFormType extends AbstractType
                 )
             )
         )->add(
-            'gender', ChoiceType::class,
+            'gender',
+            ChoiceType::class,
             array(
                 'choices'  => array(
                     'Female' => 'female',
@@ -99,7 +105,8 @@ class UpdateFormType extends AbstractType
                 'data' => $user->getGender()
             )
         )->add(
-            'address', TextareaType::class,
+            'address',
+            TextareaType::class,
             array(
                 'attr' => array(
                     'placeholder'=>'Enter Address',
@@ -148,6 +155,3 @@ class UpdateFormType extends AbstractType
         );
     }
 }
-
-
-

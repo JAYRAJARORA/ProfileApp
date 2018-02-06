@@ -71,10 +71,7 @@ class RegisterController extends Controller
         // if submitted as post and is valid
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $has_error = $this->get(
-                'validate.register'
-            )
-                ->validateRegisterForm($user);
+            $has_error = $this->get('validate')->validateRegisterForm($user);
 
             if (!$has_error) {
                 $encode_object = $this->container->get('password.encode');
@@ -116,9 +113,7 @@ class RegisterController extends Controller
     public function checkEmailAction(Request $request)
     {
         $email = ($this->get('request')->request->get('email'));
-        $isExist = $this->container->get(
-            'email.check'
-        )->checkEmailExistsInRegister($email);
+        $isExist = $this->get('validate')->checkEmailExistsInRegister($email);
 
         if ($isExist) {
             $response = array('error' => 'Email id already exists');
@@ -143,9 +138,7 @@ class RegisterController extends Controller
     public function checkUsernameAction(Request $request)
     {
         $username = ($this->get('request')->request->get('username'));
-        $isExist = $this->container->get(
-            'username.check'
-        )->checkUsername($username);
+        $isExist = $this->get('validate')->checkUsername($username);
 
         if ($isExist) {
             $response = array('error' => 'Username already exists');

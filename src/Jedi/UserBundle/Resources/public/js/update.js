@@ -1,6 +1,7 @@
 /* form validation using jquery */
 $(document).ready(function () {
 
+
     $('#update').addClass('active');
 
     $('#email').parent().append('<span class="hide_email_details help-block" id="email_check">');
@@ -49,6 +50,10 @@ $(document).ready(function () {
     /* validation upon blur and focus */
     $('#firstname').focus(function () {
         $('#firstname_check').hide().parent().removeClass('has-error');
+    });
+
+    $('#lastname').focus(function () {
+        $('#lastname_check').hide().parent().removeClass('has-error');
     });
     $('#firstname').blur(function () {
         var firstname = $('#firstname').val();
@@ -162,13 +167,13 @@ $(document).ready(function () {
 
     /* checking the fields again upon submit */
     $('#submit').click(function () {
-        var password = $('#password').val();
-        var password_check = $('#password_check').val();
-        var username = $('#username').val();
-        var email = $('#email').val();
-        var firstname = $('#firstname').val();
-        var lastname = $('#lastname').val();
-        var is_error = true;
+        var password = $('#password').val(),
+            password_check = $('#password_check').val(),
+            username = $('#username').val(),
+            email = $('#email').val(),
+            firstname = $('#firstname').val(),
+            lastname = $('#lastname').val(),
+            is_error = true;
 
         if (false === usernameValidate(username, alphabet_regex)) {
             is_error = false;

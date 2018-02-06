@@ -21,7 +21,6 @@
 
 namespace Jedi\UserBundle\Controller;
 
-
 use Jedi\UserBundle\Form\UpdateFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -111,7 +110,7 @@ class HomeController extends Controller
         // if submitted as post and is valid
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $isSameData = $this->get('validate.same_data')->checkForSameData($data, $user);
+            $isSameData = $this->get('validate')->checkForSameData($data, $user);
             if ($isSameData) {
                 $request->getSession()
                     ->getFlashBag()
@@ -120,7 +119,7 @@ class HomeController extends Controller
 
                 return $this->redirect($url);
             }
-            $has_error = $this->get('validate.update')->validateUpdateForm($data);
+            $has_error = $this->get('validate')->validateUpdateForm($data);
             if (!$has_error) {
                 $em = $this->getDoctrine()->getManager();
                 $user->setFirstname($data['firstname']);
@@ -170,11 +169,7 @@ class HomeController extends Controller
         $email = ($this->get('request')->request->get('email'));
         $response = array();
         $user = $this->getUser();
-        $isExist = $this->container
-            ->get('email.check')
-            ->checkEmailExistsInUpdate(
-                $user, $email
-            );
+        $isExist = $this->get('validate')->checkEmailExistsInUpdate($user, $email);
         if ($isExist) {
             $response = array('error' => 'Email id already exists');
         }

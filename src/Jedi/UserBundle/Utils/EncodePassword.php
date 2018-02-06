@@ -34,7 +34,7 @@ use Jedi\UserBundle\Entity\User;
  */
 class EncodePassword
 {
-    private $_encoder;
+    private $encoder;
 
     /**
      * EncodePassword constructor.
@@ -43,7 +43,7 @@ class EncodePassword
      */
     public function __construct(EncoderFactory $encoderFactory)
     {
-        $this->_encoder = $encoderFactory;
+        $this->encoder = $encoderFactory;
     }
 
     /**
@@ -56,7 +56,7 @@ class EncodePassword
      */
     public function encodePassword(User $user, $plainPassword)
     {
-        $encoderPassword = $this->_encoder->getEncoder($user);
+        $encoderPassword = $this->encoder->getEncoder($user);
         return $encoderPassword->encodePassword($plainPassword, $user->getSalt());
     }
 

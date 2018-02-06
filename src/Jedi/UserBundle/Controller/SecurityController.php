@@ -56,7 +56,7 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
         // Redirect to home page for already authenticated users
-        if ($this->container->get(
+        if ($this->get(
             'security.authorization_checker'
         )->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ) {
@@ -167,14 +167,14 @@ class SecurityController extends Controller
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $data = $form->getData();
-                    $has_error = $this->get('validate.reset')
-                        ->validateResetForm($data);
+                    $has_error = $this->get('validate')->validateResetForm($data);
 
                     if (!$has_error) {
                         $encode_object = $this->container->get('password.encode');
                         $user->setPassword(
                             $encode_object->encodePassword(
-                                $user, $data['plainPassword']
+                                $user,
+                                $data['plainPassword']
                             )
                         );
                         $user->setForgotPassId(null);

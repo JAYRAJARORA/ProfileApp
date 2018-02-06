@@ -6,7 +6,7 @@ $(document).ready(function () {
         var password = $('#password').val();
         var is_error = true;
 
-        if (false === passwordValidate(password)) {
+        if (false === passwordValidate(password) ) {
             is_error = false;
         }
         if (false === usernameValidate(username)) {
@@ -61,7 +61,7 @@ $(document).ready(function () {
      * ajax request sends the email entered and in response
      * gives the error or success message as jso
      */
-    $('#forgot_pass_submit').click(function (event) {
+    $('#forgot_pass_submit').on('click', function (event) {
         event.preventDefault();
         var modal_email = $('#modal_email').val();
 

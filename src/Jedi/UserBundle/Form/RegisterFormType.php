@@ -53,7 +53,8 @@ class RegisterFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            '_username', TextType::class,
+            '_username',
+            TextType::class,
             array(
                 'attr' => array(
                     'placeholder'=>'Enter Username',
@@ -61,21 +62,26 @@ class RegisterFormType extends AbstractType
                 )
             )
         )->add(
-            '_firstname', TextType::class, array(
+            '_firstname',
+            TextType::class,
+            array(
                 'attr' => array(
                     'placeholder'=>'Enter Firstname',
                     'class'=> 'form-control'
                 )
             )
         )->add(
-            '_lastname', TextType::class, array(
+            '_lastname',
+            TextType::class,
+            array(
                 'attr' => array(
                     'placeholder'=>'Enter Lastname',
                     'class'=> 'form-control'
                 )
             )
         )->add(
-            '_email', EmailType::class,
+            '_email',
+            EmailType::class,
             array(
                 'label' => 'Email Address',
                 'attr' => array(
@@ -97,7 +103,8 @@ class RegisterFormType extends AbstractType
                 'data' => 'male',
             )
         )->add(
-            '_address', TextareaType::class,
+            '_address',
+            TextareaType::class,
             array(
                 'attr' => array(
                     'placeholder'=>'Enter Address',
@@ -146,6 +153,3 @@ class RegisterFormType extends AbstractType
         );
     }
 }
-
-
-

@@ -6,32 +6,10 @@ services:
       class: Jedi\UserBundle\Utils\EncodePassword
       arguments: [@security.encoder_factory]
 
-    email.check:
-      class: Jedi\UserBundle\Utils\CheckEmail
-      arguments: [@doctrine.orm.entity_manager]
-
-    username.check:
-          class: Jedi\UserBundle\Utils\CheckUsername
-          arguments: [@doctrine.orm.entity_manager]
-
     email.send:
           class: Jedi\UserBundle\Utils\SendEmail
           arguments: [@doctrine.orm.entity_manager,@templating,@mailer,"%set_from_email%"]
 
-    validate.register:
-          class: Jedi\UserBundle\Utils\FormValidate\RegisterFormValidation
-          arguments: []
-
-    validate.update:
-          class: Jedi\UserBundle\Utils\FormValidate\UpdateFormValidation
-          arguments: []
-
-    validate.reset:
-          class: Jedi\UserBundle\Utils\FormValidate\ResetFormValidation
-          arguments: []
-
-    validate.same_data:
-          class: Jedi\UserBundle\Utils\SameDataEntered
-          arguments: [@password.encode]
-
-
+    validate:
+        class: Jedi\UserBundle\Utils\Validation
+        arguments: [@doctrine.orm.entity_manager]
